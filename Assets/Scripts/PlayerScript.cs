@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class PlayerScript : MonoBehaviour {
 	
-	public float moveSpeed = 5f;
+	public float moveSpeed;
+    public Transform projectilePrefab;
+    Transform lastShot;
+
+
 	private Rigidbody2D PlayerRB;
 	private int Lives = 3;
 
@@ -17,15 +21,21 @@ public class Player : MonoBehaviour {
 	void Update () {
 		PlayerMoved();
 		if (Input.GetKeyDown(KeyCode.Space)){
-			PlayerShot();
-		}
+            if(lastShot == null)
+            {
+                PlayerShot();
+            }
+        }
 	}
 	void PlayerMoved(){
 		float moveInput = Input.GetAxisRaw("Horizontal");
 		Vector2 moveVelocity = PlayerRB.velocity;
 		PlayerRB.velocity = new Vector2(moveInput * moveSpeed, moveVelocity.y);
 	}
-	void PlayerShot(){
 
+    // Spawns a projectile roughly above player position
+	void PlayerShot(){
+        Vector3 oneAbove = this.transform.position + Vector3.up/3;
+        lastShot = Instantiate(projectilePrefab, oneAbove, Quaternion.identity);
 	}
 }
