@@ -25,6 +25,7 @@ public class ProjectileScript : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy") )
         {
             // Kill enemy here
+            // Destroy(collision.gameObject);
             DestroyProjectile();
         }
         if (collision.gameObject.CompareTag("Border") )

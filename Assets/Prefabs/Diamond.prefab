@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4384839751382118}
   - component: {fileID: 212511469007461290}
   - component: {fileID: 114947251290472192}
-  - component: {fileID: 60134738685778812}
-  - component: {fileID: 50430505744491142}
+  - component: {fileID: 61618887188386994}
+  - component: {fileID: 50276790788137236}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Enemy
@@ -43,7 +43,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50430505744491142
+--- !u!50 &50276790788137236
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -54,17 +54,17 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &60134738685778812
-PolygonCollider2D:
+--- !u!61 &61618887188386994
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -72,7 +72,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -85,12 +85,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.5, y: -0.000000021855694}
-      - {x: 0.00000004371139, y: -0.5}
-      - {x: 0.5, y: 0.0000000059624403}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114947251290472192
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,6 +12,8 @@ public class enemy : MonoBehaviour {
 	private float waitTime = 1f;
 	private float timeElapsed = 0f;
 
+	private bool moveRight = true;
+
 	private List<List<GameObject>> matrix = new List<List<GameObject>>();
 
 	// Use this for initialization
@@ -40,18 +42,52 @@ public class enemy : MonoBehaviour {
 		// checkEndCols();
 		timeElapsed += Time.deltaTime;
 		if (timeElapsed >= waitTime){
-			for(int x = 0; x < width; x++){
-				for (int y = 0; y < height; y++){
+			if (moveRight == true){
+				for(int x = 0; x < width; x++){
+					for (int y = 0; y < height; y++){
+						if (checkWall(matrix[width -1][height-1])){
+							movedown();
+							moveRight = false;
+						}
+						if (moveRight){
+							matrix[x][y].transform.Translate(1,0,0);
+						}
+					}
+				}
+			}
+			else{
+				for(int x = 0; x < width; x++){
+					for (int y = 0; y < height; y++){
+						if (checkWall(matrix[0][height-1])){
+							movedown();
+							moveRight = true;
+						}
+						if (!moveRight){
+							matrix[x][y].transform.Translate(-1,0,0);
+						}
+					}
 				}
 			}
 			timeElapsed = 0;
 		}
 	}
-	void checkEndCols(){
-
+	void movedown(){
+		for(int x = 0; x < width; x++){
+			for (int y = 0; y < height; y++){
+				matrix[x][y].transform.Translate(0f,-.1f,0f);
+			}
+		}
 	}
 	bool checkWall(GameObject item){
 		bool hitWall = item.GetComponent<collide>().WallHit;
+		item.GetComponent<collide>().WallHit = false;
 		return hitWall;
+	}
+	void OnCollisionEnter2D(Collision2D collision){
+		 if(collision.collider.CompareTag("Projectile") )
+        {
+            // Kill enemy here
+            Destroy(this.gameObject);
+        }
 	}
 }
