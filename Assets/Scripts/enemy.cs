@@ -39,42 +39,81 @@ public class enemy : MonoBehaviour {
 		}
 	}
 	void enemyMovment(){
-		// checkEndCols();
 		timeElapsed += Time.deltaTime;
+		int gone = 0;
 		if (timeElapsed >= waitTime){
-			if (moveRight == true){
+			if (moveRight){
 				for(int x = 0; x < width; x++){
+					gone = 0;
 					for (int y = 0; y < height; y++){
-						if (checkWall(matrix[width -1][height-1])){
-							movedown();
-							moveRight = false;
+						if (x == width-1){
+							if (matrix[x][y] != null){
+								if (checkWall(matrix[x][y])){
+									moveRight = false;
+								}
+							}
+							if (matrix[x][y] == null){
+								gone += 1;
+							}
+							if(gone == height){
+								width -=1;
+								Debug.Log("yikes");
+							}
 						}
-						if (moveRight){
-							matrix[x][y].transform.Translate(1,0,0);
+						if (matrix[x][y] != null){
+							matrix[x][y].transform.Translate(1f,0f,0f);
+						}
+						if (x == width-1 && moveRight == false){
+							movedown();
 						}
 					}
 				}
 			}
-			else{
+			if (moveRight == false){
 				for(int x = 0; x < width; x++){
+					gone = 0;
 					for (int y = 0; y < height; y++){
-						if (checkWall(matrix[0][height-1])){
-							movedown();
-							moveRight = true;
+						if (x == 0){
+
+							if (matrix[x][y] != null){
+								if (checkWall(matrix[x][y])){
+									moveRight = true;
+								}
+							}
+							if (matrix[x][y] == null){
+								gone += 1;
+							}
+							if(gone == height){
+								shiftleft();
+								return;
+							}
 						}
-						if (!moveRight){
-							matrix[x][y].transform.Translate(-1,0,0);
-						}
+					if (matrix[x][y] != null && moveRight == false){
+						matrix[x][y].transform.Translate(-1f,0f,0f);
+					}
+					if (x == 0 && moveRight == true){
+						movedown();
 					}
 				}
 			}
-			timeElapsed = 0;
 		}
+		timeElapsed = 0;
+	}
+}
+	void shiftleft(){
+		for(int x = 1; x < width; x++){
+			for (int y = 0; y < height; y++){
+				matrix[x-1][y] = matrix[x][y];
+			}
+		}
+		width -=1;
 	}
 	void movedown(){
 		for(int x = 0; x < width; x++){
 			for (int y = 0; y < height; y++){
-				matrix[x][y].transform.Translate(0f,-.1f,0f);
+				if (matrix[x][y] != null){
+					matrix[x][y].transform.Translate(0f,-.1f,0f);
+				}
 			}
 		}
 	}
@@ -82,12 +121,5 @@ public class enemy : MonoBehaviour {
 		bool hitWall = item.GetComponent<collide>().WallHit;
 		item.GetComponent<collide>().WallHit = false;
 		return hitWall;
-	}
-	void OnCollisionEnter2D(Collision2D collision){
-		 if(collision.collider.CompareTag("Projectile") )
-        {
-            // Kill enemy here
-            Destroy(this.gameObject);
-        }
 	}
 }
