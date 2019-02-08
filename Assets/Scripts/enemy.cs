@@ -57,7 +57,6 @@ public class enemy : MonoBehaviour {
 							}
 							if(gone == height){
 								width -=1;
-								Debug.Log("yikes");
 							}
 						}
 						if (matrix[x][y] != null){
