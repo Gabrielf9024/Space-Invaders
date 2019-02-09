@@ -18,20 +18,19 @@ public class enemy : MonoBehaviour {
 	private bool moveRight = true;
 
 	private int MatrixSize = 0;
-	private float currentSize = 0f;
+	private int currentSize = 0;
 
 	private List<List<GameObject>> matrix = new List<List<GameObject>>();
 
 	// Use this for initialization
 	void Start () {
 		createEnemies();
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		enemyMovment();
-		IncreaseGameSpeed();
+		checkEndGame();
 	}
 	void createEnemies(){
 
@@ -49,7 +48,7 @@ public class enemy : MonoBehaviour {
 	void enemyMovment(){
 		timeElapsed += Time.deltaTime;
 		int gone = 0;
-		currentSize =0;
+		int cSize = 0;
 			if (moveRight== true){
 				for(int x = 0; x < width; x++){
 					gone = 0;
@@ -67,13 +66,14 @@ public class enemy : MonoBehaviour {
 								width -=1;
 							}
 							if (moveRight == false){
+								cSize = currentSize;
 								movedown();
 
 							}
 						}
 						if (matrix[x][y] != null && moveRight == true){
 							// matrix[x][y].transform.Translate(1f,0f,0f);
-							currentSize+=1;
+							cSize+=1;
 							Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 							matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(gameSpeed * ConstSpeed, current_Velocity.y);
 						}
@@ -95,22 +95,25 @@ public class enemy : MonoBehaviour {
 							}
 							if(gone == height){
 								shiftleft();
-								return;
+								// return;
 							}
 							if (moveRight == true){
+								cSize = currentSize;
 								movedown();
 								// return;
 							}
 						}
 					if (matrix[x][y] != null && moveRight == false){
 						// matrix[x][y].transform.Translate(-1f,0f,0f);
-						currentSize+=1;
+						cSize+=1;
 						Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 						matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(-(gameSpeed * ConstSpeed), current_Velocity.y);
 					}
 				}
 			}
 		}
+		currentSize = cSize;
+		IncreaseGameSpeed(cSize);
 	}
 	void shiftleft(){
 		for(int x = 1; x < width; x++){
@@ -134,19 +137,27 @@ public class enemy : MonoBehaviour {
 		item.GetComponent<collide>().WallHit = false;
 		return hitWall;
 	}
-	void IncreaseGameSpeed(){
+	void IncreaseGameSpeed(int x){
 
-		if (currentSize == 50){
+		if (x == 50){
 			gameSpeed = 1f;
 		}
-		if (currentSize  == 27){
+		if (x  == 27){
 			gameSpeed = 2f;
 		}
-		if (currentSize == 11){
+		if (x == 11){
 			gameSpeed = 3f;
 		}
-		if (currentSize == 6){
+		if (x == 6){
 			gameSpeed = 4f;
+		}
+		if (x <= 3){
+			gameSpeed = 6f;
+		}
+	}
+	void checkEndGame(){
+		if (currentSize == 0){
+			Debug.Log("you won!");
 		}
 	}
 

@@ -8,6 +8,7 @@ TagManager:
   - Border
   - Enemy
   - Ground
+  - OuterWall
   layers:
   - Default
   - TransparentFX
