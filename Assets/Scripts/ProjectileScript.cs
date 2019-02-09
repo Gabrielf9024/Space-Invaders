@@ -22,7 +22,7 @@ public class ProjectileScript : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy") )
+        if(collision.gameObject.CompareTag("Enemy") && CompareTag("Projectile")) // Checks if it hit an enemy and if it itself is a player projectile
         {
             // Kill enemy here
             // Destroy(collision.gameObject);

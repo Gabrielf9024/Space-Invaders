@@ -20,7 +20,7 @@ public class enemy : MonoBehaviour {
 	private int MatrixSize = 0;
 	private int currentSize = 0;
 
-	private List<List<GameObject>> matrix = new List<List<GameObject>>();
+	public List<List<GameObject>> matrix = new List<List<GameObject>>(); // Made this public so I can access individual enemies outside this script
 
 	// Use this for initialization
 	void Start () {
@@ -30,17 +30,25 @@ public class enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		enemyMovment();
-		checkEndGame();
+		IncreaseGameSpeed();
+        checkEndGame();
+
+        if( Input.GetKeyDown(KeyCode.V) ) // *NOT FINAL* Pressing v makes a random enemy shoot. We need to make the enemies shoot on their own at random intervals and then shooting is 100% done
+        {
+            chooseRandomEnemyToFire();
+        }
 	}
 	void createEnemies(){
-
+        int count = 0;
 		for(int x = 0; x < width; x++){
 			matrix.Add(new List<GameObject>());
 			for (int y = 0; y < height; y++){
 				Vector2 position = new Vector2(x,y);
 				GameObject enemyObject = Instantiate(enemyPrefab[0], this.transform);
 				enemyObject.transform.localPosition = position;
-				matrix[x].Add(enemyObject); 
+                enemyObject.name = "enemy" + count.ToString();
+                ++count;
+				matrix[x].Add(enemyObject);
 			}
 		}
 		MatrixSize = height * width;
@@ -160,5 +168,35 @@ public class enemy : MonoBehaviour {
 			Debug.Log("you won!");
 		}
 	}
+
+    void chooseRandomEnemyToFire()
+    {
+        int colNum = Random.Range(0, width);
+        List<GameObject> column = sortColumn(colNum);
+        if (column.Count == 0)
+        {
+            chooseRandomEnemyToFire();
+            return;
+        }
+        else
+        {
+            GameObject chosenOne = column[0];
+            chosenOne.GetComponent<collide>().fire();
+        }
+    }
+
+    List<GameObject> sortColumn(int columnIndex) // Doesn't really sort the column since they're already sorted, but it puts the lowest postioned enemy in index 0
+    {
+        List<GameObject> col = new List<GameObject>();
+        int start = columnIndex * height;
+        for( int i = 0; i < height; ++i ) // Makes a list of all enemy objects in the given column (in descending order of index);
+        {
+            int enemyIndex = start + i;
+            GameObject chosen = GameObject.Find("enemy" + enemyIndex.ToString());
+            if (chosen != null)
+                col.Add(chosen);
+        }
+        return col;
+    }
 
 }

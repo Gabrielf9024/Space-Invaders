@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
-	
-	public float moveSpeed;
+
+    public int lives = 3;
+    public float moveSpeed;
     public Transform projectilePrefab;
     Transform lastShot;
 
@@ -38,4 +40,17 @@ public class PlayerScript : MonoBehaviour {
         Vector3 oneAbove = this.transform.position + Vector3.up/3;
         lastShot = Instantiate(projectilePrefab, oneAbove, Quaternion.identity);
 	}
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy Projectile"))
+        {
+            --lives;
+            GetComponent<Transform>().position = new Vector3(0, -4.2f, 0); // Move player back to starting point
+        }
+        if (lives < 0)
+        {
+            SceneManager.LoadScene("Matthew"); // Put the main level scene here
+        }
+    }
 }

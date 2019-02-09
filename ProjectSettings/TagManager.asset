@@ -8,6 +8,7 @@ TagManager:
   - Border
   - Enemy
   - Ground
+  - Enemy Projectile
   - OuterWall
   layers:
   - Default
