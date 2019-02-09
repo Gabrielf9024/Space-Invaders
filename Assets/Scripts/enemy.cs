@@ -17,6 +17,9 @@ public class enemy : MonoBehaviour {
 
 	private bool moveRight = true;
 
+	private int MatrixSize = 0;
+	private float currentSize = 0f;
+
 	private List<List<GameObject>> matrix = new List<List<GameObject>>();
 
 	// Use this for initialization
@@ -28,6 +31,7 @@ public class enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		enemyMovment();
+		IncreaseGameSpeed();
 	}
 	void createEnemies(){
 
@@ -40,11 +44,12 @@ public class enemy : MonoBehaviour {
 				matrix[x].Add(enemyObject); 
 			}
 		}
+		MatrixSize = height * width;
 	}
 	void enemyMovment(){
 		timeElapsed += Time.deltaTime;
 		int gone = 0;
-		// if (timeElapsed >= waitTime){
+		currentSize =0;
 			if (moveRight== true){
 				for(int x = 0; x < width; x++){
 					gone = 0;
@@ -53,7 +58,6 @@ public class enemy : MonoBehaviour {
 							if (matrix[x][y] != null){
 								if (checkWall(matrix[x][y])){
 									moveRight = false;
-									Debug.Log(moveRight);
 								}
 							}
 							if (matrix[x][y] == null){
@@ -63,13 +67,13 @@ public class enemy : MonoBehaviour {
 								width -=1;
 							}
 							if (moveRight == false){
-								Debug.Log("down");
 								movedown();
 
 							}
 						}
 						if (matrix[x][y] != null && moveRight == true){
 							// matrix[x][y].transform.Translate(1f,0f,0f);
+							currentSize+=1;
 							Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 							matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(gameSpeed * ConstSpeed, current_Velocity.y);
 						}
@@ -84,7 +88,6 @@ public class enemy : MonoBehaviour {
 							if (matrix[x][y] != null){
 								if (checkWall(matrix[x][y])){
 									moveRight = true;
-									Debug.Log(moveRight);
 								}
 							}
 							if (matrix[x][y] == null){
@@ -95,22 +98,20 @@ public class enemy : MonoBehaviour {
 								return;
 							}
 							if (moveRight == true){
-								Debug.Log("down");
 								movedown();
 								// return;
 							}
 						}
 					if (matrix[x][y] != null && moveRight == false){
 						// matrix[x][y].transform.Translate(-1f,0f,0f);
+						currentSize+=1;
 						Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 						matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(-(gameSpeed * ConstSpeed), current_Velocity.y);
 					}
 				}
 			}
 		}
-		// timeElapsed = 0;
-	// }
-}
+	}
 	void shiftleft(){
 		for(int x = 1; x < width; x++){
 			for (int y = 0; y < height; y++){
@@ -133,4 +134,20 @@ public class enemy : MonoBehaviour {
 		item.GetComponent<collide>().WallHit = false;
 		return hitWall;
 	}
+	void IncreaseGameSpeed(){
+
+		if (currentSize == 50){
+			gameSpeed = 1f;
+		}
+		if (currentSize  == 27){
+			gameSpeed = 2f;
+		}
+		if (currentSize == 11){
+			gameSpeed = 3f;
+		}
+		if (currentSize == 6){
+			gameSpeed = 4f;
+		}
+	}
+
 }
