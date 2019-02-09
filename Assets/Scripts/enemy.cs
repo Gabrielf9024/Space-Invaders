@@ -6,6 +6,9 @@ public class enemy : MonoBehaviour {
 
 	public List<GameObject> enemyPrefab;
 
+	public float ConstSpeed = 1f;
+	public float gameSpeed = .5f; 
+
 	private int height = 5;
 	private int width = 11;
 
@@ -41,8 +44,8 @@ public class enemy : MonoBehaviour {
 	void enemyMovment(){
 		timeElapsed += Time.deltaTime;
 		int gone = 0;
-		if (timeElapsed >= waitTime){
-			if (moveRight){
+		// if (timeElapsed >= waitTime){
+			if (moveRight== true){
 				for(int x = 0; x < width; x++){
 					gone = 0;
 					for (int y = 0; y < height; y++){
@@ -50,6 +53,7 @@ public class enemy : MonoBehaviour {
 							if (matrix[x][y] != null){
 								if (checkWall(matrix[x][y])){
 									moveRight = false;
+									Debug.Log(moveRight);
 								}
 							}
 							if (matrix[x][y] == null){
@@ -58,12 +62,16 @@ public class enemy : MonoBehaviour {
 							if(gone == height){
 								width -=1;
 							}
+							if (moveRight == false){
+								Debug.Log("down");
+								movedown();
+
+							}
 						}
-						if (matrix[x][y] != null){
-							matrix[x][y].transform.Translate(1f,0f,0f);
-						}
-						if (x == width-1 && moveRight == false){
-							movedown();
+						if (matrix[x][y] != null && moveRight == true){
+							// matrix[x][y].transform.Translate(1f,0f,0f);
+							Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
+							matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(gameSpeed * ConstSpeed, current_Velocity.y);
 						}
 					}
 				}
@@ -73,10 +81,10 @@ public class enemy : MonoBehaviour {
 					gone = 0;
 					for (int y = 0; y < height; y++){
 						if (x == 0){
-
 							if (matrix[x][y] != null){
 								if (checkWall(matrix[x][y])){
 									moveRight = true;
+									Debug.Log(moveRight);
 								}
 							}
 							if (matrix[x][y] == null){
@@ -86,18 +94,22 @@ public class enemy : MonoBehaviour {
 								shiftleft();
 								return;
 							}
+							if (moveRight == true){
+								Debug.Log("down");
+								movedown();
+								// return;
+							}
 						}
 					if (matrix[x][y] != null && moveRight == false){
-						matrix[x][y].transform.Translate(-1f,0f,0f);
-					}
-					if (x == 0 && moveRight == true){
-						movedown();
+						// matrix[x][y].transform.Translate(-1f,0f,0f);
+						Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
+						matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(-(gameSpeed * ConstSpeed), current_Velocity.y);
 					}
 				}
 			}
 		}
-		timeElapsed = 0;
-	}
+		// timeElapsed = 0;
+	// }
 }
 	void shiftleft(){
 		for(int x = 1; x < width; x++){
