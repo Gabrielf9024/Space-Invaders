@@ -7,9 +7,11 @@ public class enemy : MonoBehaviour {
 	public List<GameObject> enemyPrefab;
 
 	public float ConstSpeed = 1f;
-	public float gameSpeed = .5f; 
+	public float gameSpeed = .5f;
+    public float spawnnext = 1f;
+    float timePassed = 0f;
 
-	private int height = 5;
+    private int height = 5;
 	private int width = 11;
 
 	private float waitTime = 1f;
@@ -30,10 +32,21 @@ public class enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		enemyMovment();
-		IncreaseGameSpeed();
+		//IncreaseGameSpeed();
         checkEndGame();
+        float randShoot = Random.Range(0f, 1f);
 
-        if( Input.GetKeyDown(KeyCode.V) ) // *NOT FINAL* Pressing v makes a random enemy shoot. We need to make the enemies shoot on their own at random intervals and then shooting is 100% done
+        timePassed += Time.deltaTime;
+        if (timePassed > spawnnext)
+        {
+            timePassed = 0;
+            if (randShoot >= .7) // NOT FINAL Pressing v makes a random enemy shoot. We need to make the enemies shoot on their own at random intervals and then shooting is 100% done
+            {
+                chooseRandomEnemyToFire();
+            }
+        }
+
+        if ( Input.GetKeyDown(KeyCode.V) ) // *NOT FINAL* Pressing v makes a random enemy shoot. We need to make the enemies shoot on their own at random intervals and then shooting is 100% done
         {
             chooseRandomEnemyToFire();
         }
