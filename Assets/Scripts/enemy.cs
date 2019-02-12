@@ -41,14 +41,14 @@ public class enemy : MonoBehaviour {
         float randShoot = Random.Range(0f, 1f);
 
         timePassed += Time.deltaTime;
-        // totalGameTime += Time.deltaTime;
-        // if (timePassed > spawnnext)
-        // {
-        //     timePassed = 0;
-        //     if (randShoot >= shootRate){
-        //         chooseRandomEnemyToFire();
-        //     }
-        // }
+        totalGameTime += Time.deltaTime;
+        if (timePassed > spawnnext)
+        {
+            timePassed = 0;
+            if (randShoot >= shootRate){
+                chooseRandomEnemyToFire();
+            }
+        }
         IncreaseDiff(totalGameTime);
 	}
 	void createEnemies(){
@@ -141,7 +141,6 @@ public class enemy : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log(MatrixSize);
 	}
 	void shiftleft(){
 		for(int x = 1; x < width; x++){
