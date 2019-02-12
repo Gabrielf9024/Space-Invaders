@@ -5,10 +5,9 @@ using UnityEngine;
 public class UFO : MonoBehaviour {
 
 	public GameObject UFOPrefab;
-	public float spawnnext = 60f;
+	public float spawnnext = 10f;
 	float timePassed = 0f;
 	float travelSpeed = 5f;
-	List<int> scoreList = new List<int>{100, 150, 200, 250, 300};
 	
 	void Update () {
 		timePassed += Time.deltaTime;
@@ -20,7 +19,6 @@ public class UFO : MonoBehaviour {
 	void SpawnUFO(){
 		int randDirection = Random.Range(0,2);
 		switch(randDirection){
-
 			case 0:
 				Vector2 position = new Vector2(-9f, 4.2f);
 				GameObject eUFO = Instantiate(UFOPrefab,position, Quaternion.identity);
@@ -42,16 +40,7 @@ public class UFO : MonoBehaviour {
 	}
 	bool SpawnNow(){
 		float randSpawn = Random.Range(0f,1f);
-		if (randSpawn > .75){return true;}
+		if (randSpawn >= .70){return true;}
 		return false;
-	}
-
-	void OnCollisionEnter2D(Collision2D collision){
-		if (collision.collider.CompareTag("Projectile")){
-			Destroy(this.gameObject);
-			int randScore = Random.Range(0,5);
-			// scoreList[randScore];
-
-		}
 	}
 }

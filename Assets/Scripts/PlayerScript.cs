@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
 
-    public int lives = 3;
+    public int slives = 3;
     public float moveSpeed;
     public Transform projectilePrefab;
     Transform lastShot;
@@ -15,7 +15,8 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		PlayerRB = this.GetComponent<Rigidbody2D>();		
+		PlayerRB = this.GetComponent<Rigidbody2D>();	
+        GameObject.Find("Main Camera").GetComponent<LivesUpdate>().lives = 3;
 	}
 	
 	// Update is called once per frame
@@ -44,10 +45,11 @@ public class PlayerScript : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
-            --lives;
+            --slives;
+            --GameObject.Find("Main Camera").GetComponent<LivesUpdate>().lives;
             GetComponent<Transform>().position = new Vector3(0, -4.2f, 0); // Move player back to starting point
         }
-        if (lives == 0)
+        if (slives == 0)
         {
             SceneManager.LoadScene("GameStart"); // Put the main level scene here
         }

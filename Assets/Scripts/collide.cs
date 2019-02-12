@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class collide : MonoBehaviour
 {
     public bool WallHit = false;
+    public int myScore = 0;
     public GameObject projectilePrefab;
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -20,7 +21,8 @@ public class collide : MonoBehaviour
         }
         if (collision.collider.CompareTag("Projectile"))
         {
-        	++GameObject.Find("Main Camera").GetComponent<ScoreUpdate>().score;
+        	GameObject.Find("Main Camera").GetComponent<ScoreUpdate>().score += myScore;
+        	--GameObject.Find("EnemySpawns").GetComponent<enemy>().MatrixSize;
             Destroy(this.gameObject);
             Destroy(collision.gameObject);
         }

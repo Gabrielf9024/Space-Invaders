@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4322595858150526}
   - component: {fileID: 212497834205426460}
-  - component: {fileID: 58285607336024272}
   - component: {fileID: 50688346306006972}
   - component: {fileID: 114803394674246962}
+  - component: {fileID: 61704364141950040}
   m_Layer: 0
   m_Name: Enemy3
   m_TagString: Untagged
@@ -63,8 +63,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58285607336024272
-CircleCollider2D:
+--- !u!61 &61704364141950040
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -76,8 +76,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114803394674246962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -90,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WallHit: 0
+  myScore: 0
   projectilePrefab: {fileID: 1877846433625544, guid: 03ff7d97f691fc04f859a8337d24577b,
     type: 2}
 --- !u!212 &212497834205426460

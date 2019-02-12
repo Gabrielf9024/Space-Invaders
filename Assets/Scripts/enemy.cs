@@ -9,7 +9,9 @@ public class enemy : MonoBehaviour {
 
 	public float ConstSpeed = 1f;
 	public float gameSpeed = .5f;
+
     public float spawnnext = 4f;
+
     private float timePassed = 0f;
     private float totalGameTime = 0f;
 
@@ -23,14 +25,14 @@ public class enemy : MonoBehaviour {
 
 	private bool moveRight = true;
 
-	private int MatrixSize = 0;
-	private int currentSize = 0;
+	public int MatrixSize = 0;
 
 	public List<List<GameObject>> matrix = new List<List<GameObject>>(); // Made this public so I can access individual enemies outside this script
 
 	// Use this for initialization
 	void Start () {
 		createEnemies();
+		MatrixSize = 55;
 	}
 	
 	// Update is called once per frame
@@ -39,14 +41,14 @@ public class enemy : MonoBehaviour {
         float randShoot = Random.Range(0f, 1f);
 
         timePassed += Time.deltaTime;
-        totalGameTime += Time.deltaTime;
-        if (timePassed > spawnnext)
-        {
-            timePassed = 0;
-            if (randShoot >= shootRate){
-                chooseRandomEnemyToFire();
-            }
-        }
+        // totalGameTime += Time.deltaTime;
+        // if (timePassed > spawnnext)
+        // {
+        //     timePassed = 0;
+        //     if (randShoot >= shootRate){
+        //         chooseRandomEnemyToFire();
+        //     }
+        // }
         IncreaseDiff(totalGameTime);
 	}
 	void createEnemies(){
@@ -59,6 +61,7 @@ public class enemy : MonoBehaviour {
 					GameObject enemyObject = Instantiate(enemyPrefab[0], this.transform);
 					enemyObject.transform.localPosition = position;
 	                enemyObject.name = "enemy" + count.ToString();
+	              	enemyObject.GetComponent<collide>().myScore = 40;
 	                ++count;
 					matrix[x].Add(enemyObject);
 				}
@@ -66,6 +69,7 @@ public class enemy : MonoBehaviour {
 					GameObject enemyObject2 = Instantiate(enemyPrefab[1], this.transform);
 					enemyObject2.transform.localPosition = position;
 	                enemyObject2.name = "enemy" + count.ToString();
+	                enemyObject2.GetComponent<collide>().myScore = 20;
 	                ++count;
 					matrix[x].Add(enemyObject2);
 				}
@@ -73,19 +77,16 @@ public class enemy : MonoBehaviour {
 					GameObject enemyObject3 = Instantiate(enemyPrefab[2], this.transform);
 					enemyObject3.transform.localPosition = position;
 	                enemyObject3.name = "enemy" + count.ToString();
+	                enemyObject3.GetComponent<collide>().myScore = 10;
 	                ++count;
 					matrix[x].Add(enemyObject3);
 				}
 			}
 		}
-		MatrixSize = height * width;
-		currentSize = MatrixSize;
 	}
 	void enemyMovment(){
 		int gone = 0;
-		int cSize = 0;
 		checkEndState();
-		Debug.Log(moveRight);
 		if (moveRight== true){
 			for(int x = 0; x < width; x++){
 				gone = 0;
@@ -104,12 +105,9 @@ public class enemy : MonoBehaviour {
 						}
 						if (moveRight == false){
 							movedown();
-							cSize = currentSize;
-							// break;
 						}
 					}
 					if (matrix[x][y] != null && moveRight == true){
-						cSize+=1;
 						Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 						matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(gameSpeed * ConstSpeed, current_Velocity.y);
 					}
@@ -134,42 +132,36 @@ public class enemy : MonoBehaviour {
 						}
 						if (moveRight == true){
 							movedown();
-							cSize = currentSize;
-							// break;
 						}
 					}
 					if (matrix[x][y] != null && moveRight == false){
-						cSize+=1;
 						Vector2 current_Velocity = matrix[x][y].GetComponent<Rigidbody2D>().velocity;
 						matrix[x][y].GetComponent<Rigidbody2D>().velocity = new Vector2(-(gameSpeed * ConstSpeed), current_Velocity.y);
 					}
 				}
 			}
 		}
-	currentSize = cSize;
+		Debug.Log(MatrixSize);
 	}
 	void shiftleft(){
-		int newSize = 0;
 		for(int x = 1; x < width; x++){
 			for (int y = 0; y < height; y++){
 				matrix[x-1][y] = matrix[x][y];
-				newSize +=1;
 			}
 		}
-		currentSize = newSize;
 		width -=1;
 	}
 	void movedown(){
-		int currentItems = 0;
+		float currentSpeed = gameSpeed;
 		for(int x = 0; x < width; x++){
 			for (int y = 0; y < height; y++){
 				if (matrix[x][y] != null){
+					gameSpeed = 0f;
 					matrix[x][y].transform.Translate(0f,-.1f,0f);
-					currentItems+=1;
 				}
 			}
 		}
-		currentSize = currentItems;
+		gameSpeed = currentSpeed;
 	}
 	bool checkWall(GameObject item){
 		bool hitWall = item.GetComponent<collide>().WallHit;
@@ -216,7 +208,7 @@ public class enemy : MonoBehaviour {
         {
             int enemyIndex = start + i;
             GameObject chosen = GameObject.Find("enemy" + enemyIndex.ToString());
-            if (isValid(columnIndex,i)){
+            if (isValid(columnIndex,i) && chosen != null){
                 col.Add(chosen);
             }
         }
@@ -230,8 +222,8 @@ public class enemy : MonoBehaviour {
     	return true;
     }
     void checkEndState(){
-    	if (currentSize == 0){
-    		SceneManager.LoadScene("GameOverScreen");
+    	if (MatrixSize == 0){
+    		// SceneManager.LoadScene("GameOverScreen");
     	}
     }
 
