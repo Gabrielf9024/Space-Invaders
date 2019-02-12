@@ -12,7 +12,6 @@ public class PlayerScript : MonoBehaviour {
 
 
 	private Rigidbody2D PlayerRB;
-	private int Lives = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -48,9 +47,9 @@ public class PlayerScript : MonoBehaviour {
             --lives;
             GetComponent<Transform>().position = new Vector3(0, -4.2f, 0); // Move player back to starting point
         }
-        if (lives < 0)
+        if (lives == 0)
         {
-            SceneManager.LoadScene("Matthew"); // Put the main level scene here
+            SceneManager.LoadScene("GameStart"); // Put the main level scene here
         }
     }
 }

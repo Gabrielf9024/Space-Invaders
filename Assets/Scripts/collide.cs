@@ -5,22 +5,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class collide : MonoBehaviour
 {
     public bool WallHit = false;
-    public Transform projectilePrefab;
+    public GameObject projectilePrefab;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Border"))
+        if (collision.collider.CompareTag("Border") )
         {
             WallHit = true;
         }
         if (collision.collider.CompareTag("Projectile"))
         {
-            // Kill enemy here
             Destroy(this.gameObject);
+            Destroy(collision.gameObject);
+        }
+        if (collision.collider.CompareTag("Ground") ||
+        	collision.collider.CompareTag("Player"))
+        {
+        	SceneManager.LoadScene("GameStart");
         }
     }
 

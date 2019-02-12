@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,17 +24,17 @@ public class ProjectileScript : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy") && CompareTag("Projectile")) // Checks if it hit an enemy and if it itself is a player projectile
         {
-            // Kill enemy here
-            // Destroy(collision.gameObject);
             DestroyProjectile();
         }
-        if (collision.gameObject.CompareTag("Border") )
+        if (collision.gameObject.CompareTag("Border") ||
+            collision.gameObject.CompareTag("Ground"))
         {
             DestroyProjectile();
         }
     }
     void DestroyProjectile()
     {
+
         Destroy(gameObject);
     }
 }
