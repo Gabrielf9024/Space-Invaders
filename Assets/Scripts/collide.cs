@@ -20,6 +20,7 @@ public class collide : MonoBehaviour
         }
         if (collision.collider.CompareTag("Projectile"))
         {
+        	++GameObject.Find("Main Camera").GetComponent<ScoreUpdate>().score;
             Destroy(this.gameObject);
             Destroy(collision.gameObject);
         }

@@ -8,13 +8,10 @@ public class ScoreUpdate : MonoBehaviour {
 
     // Use this for initialization
     public int score = 0;
-    Text scoreText;
-	void Start () {
-       scoreText = this.GetComponent<Text>();
-    }
+    public Text scoreText = null;
 	
 	// Update is called once per frame
 	void Update () {
-        scoreText.text = string.Format("Score:{0}", score);
+        scoreText.text = string.Format("Score: {0}", score);
 	}
 }

@@ -55,11 +55,27 @@ public class enemy : MonoBehaviour {
 			matrix.Add(new List<GameObject>());
 			for (int y = 0; y < height; y++){
 				Vector2 position = new Vector2(x,y);
-				GameObject enemyObject = Instantiate(enemyPrefab[0], this.transform);
-				enemyObject.transform.localPosition = position;
-                enemyObject.name = "enemy" + count.ToString();
-                ++count;
-				matrix[x].Add(enemyObject);
+				if (y == 4){
+					GameObject enemyObject = Instantiate(enemyPrefab[0], this.transform);
+					enemyObject.transform.localPosition = position;
+	                enemyObject.name = "enemy" + count.ToString();
+	                ++count;
+					matrix[x].Add(enemyObject);
+				}
+				if (y == 3|| y == 2){
+					GameObject enemyObject2 = Instantiate(enemyPrefab[1], this.transform);
+					enemyObject2.transform.localPosition = position;
+	                enemyObject2.name = "enemy" + count.ToString();
+	                ++count;
+					matrix[x].Add(enemyObject2);
+				}
+				if (y == 0 || y == 1){
+					GameObject enemyObject3 = Instantiate(enemyPrefab[2], this.transform);
+					enemyObject3.transform.localPosition = position;
+	                enemyObject3.name = "enemy" + count.ToString();
+	                ++count;
+					matrix[x].Add(enemyObject3);
+				}
 			}
 		}
 		MatrixSize = height * width;
@@ -69,6 +85,7 @@ public class enemy : MonoBehaviour {
 		int gone = 0;
 		int cSize = 0;
 		checkEndState();
+		Debug.Log(moveRight);
 		if (moveRight== true){
 			for(int x = 0; x < width; x++){
 				gone = 0;
@@ -88,6 +105,7 @@ public class enemy : MonoBehaviour {
 						if (moveRight == false){
 							movedown();
 							cSize = currentSize;
+							// break;
 						}
 					}
 					if (matrix[x][y] != null && moveRight == true){
@@ -117,6 +135,7 @@ public class enemy : MonoBehaviour {
 						if (moveRight == true){
 							movedown();
 							cSize = currentSize;
+							// break;
 						}
 					}
 					if (matrix[x][y] != null && moveRight == false){
@@ -186,6 +205,7 @@ public class enemy : MonoBehaviour {
             GameObject chosenOne = column[0];
             chosenOne.GetComponent<collide>().fire();
         }
+        column = null;
     }
 
     List<GameObject> sortColumn(int columnIndex) // Doesn't really sort the column since they're already sorted, but it puts the lowest postioned enemy in index 0
@@ -211,7 +231,7 @@ public class enemy : MonoBehaviour {
     }
     void checkEndState(){
     	if (currentSize == 0){
-    		Debug.Log("You Won!!");
+    		SceneManager.LoadScene("GameOverScreen");
     	}
     }
 
