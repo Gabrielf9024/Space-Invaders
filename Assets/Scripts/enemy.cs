@@ -151,16 +151,13 @@ public class enemy : MonoBehaviour {
 		width -=1;
 	}
 	void movedown(){
-		float currentSpeed = gameSpeed;
 		for(int x = 0; x < width; x++){
 			for (int y = 0; y < height; y++){
 				if (matrix[x][y] != null){
-					gameSpeed = 0f;
 					matrix[x][y].transform.Translate(0f,-.1f,0f);
 				}
 			}
 		}
-		gameSpeed = currentSpeed;
 	}
 	bool checkWall(GameObject item){
 		bool hitWall = item.GetComponent<collide>().WallHit;
@@ -171,31 +168,31 @@ public class enemy : MonoBehaviour {
 		if (time >= 30){
 			gameSpeed = 1.5f;
 		}
-		if (time >= 60){
+		if (time >= 40){
 			gameSpeed = 2f;
 			shootRate =.60f;
 		}
-		if (time >= 70){
+		if (time >= 60){
 			shootRate = .55f;
 		}
-		if (time >= 90){
+		if (time >= 70 || MatrixSize == 1){
 			gameSpeed = 3f;
 		}
 	}
     void chooseRandomEnemyToFire()
     {
-        int colNum = Random.Range(0, width);
-        List<GameObject> column = sortColumn(colNum);
-        if (column.Count == 0)
-        {
-            chooseRandomEnemyToFire();
-            return;
-        }
-        else
-        {
-            GameObject chosenOne = column[0];
-            chosenOne.GetComponent<collide>().fire();
-        }
+    	List<GameObject> column;
+    	while(true)
+    	{
+	        int colNum = Random.Range(0, 11);
+	        column = sortColumn(colNum);
+	        if (column.Count == 0)
+	        	continue;
+	      	break;
+	    }
+        GameObject chosenOne = column[0];
+        chosenOne.GetComponent<collide>().fire();
+        
         column = null;
     }
 
@@ -207,22 +204,15 @@ public class enemy : MonoBehaviour {
         {
             int enemyIndex = start + i;
             GameObject chosen = GameObject.Find("enemy" + enemyIndex.ToString());
-            if (isValid(columnIndex,i) && chosen != null){
+            if (chosen != null){
                 col.Add(chosen);
             }
         }
         return col;
     }
-    bool isValid(int x, int y){
-    	if(matrix[x][y] == null){
-    		Debug.Log("not valid");
-    		return false;
-    	}
-    	return true;
-    }
     void checkEndState(){
     	if (MatrixSize == 0){
-    		// SceneManager.LoadScene("GameOverScreen");
+    		SceneManager.LoadScene("GameOverScreen");
     	}
     }
 
