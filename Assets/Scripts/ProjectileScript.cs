@@ -6,14 +6,14 @@ public class ProjectileScript : MonoBehaviour
 {
     public float speed;
 
-    private BoxCollider2D coll;
+    // private BoxCollider2D coll;
     
 
     // Start is called before the first frame update
-    void Start()
-    {
-        coll = GetComponent<BoxCollider2D>();
-    }
+    // void Start()
+    // {
+    //     coll = GetComponent<BoxCollider2D>();
+    // }
 
     // Update is called once per frame
     void FixedUpdate()

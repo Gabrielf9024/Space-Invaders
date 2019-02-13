@@ -18,9 +18,6 @@ public class enemy : MonoBehaviour {
     private int height = 5;
 	private int width = 11;
 
-	private float waitTime = 1f;
-	private float timeElapsed = 0f;
-
 	private float shootRate = .7f;
 
 	private bool moveRight = true;
@@ -154,7 +151,7 @@ public class enemy : MonoBehaviour {
 		for(int x = 0; x < width; x++){
 			for (int y = 0; y < height; y++){
 				if (matrix[x][y] != null){
-					matrix[x][y].transform.Translate(0f,-.1f,0f);
+					matrix[x][y].transform.Translate(0f,-.15f,0f);
 				}
 			}
 		}
@@ -166,17 +163,17 @@ public class enemy : MonoBehaviour {
 	}
 	void IncreaseDiff(float time){
 		if (time >= 30){
-			gameSpeed = 1.5f;
+			gameSpeed = 2f;
 		}
 		if (time >= 40){
-			gameSpeed = 2f;
+			gameSpeed = 3f;
 			shootRate =.60f;
 		}
 		if (time >= 60){
 			shootRate = .55f;
 		}
 		if (time >= 70 || MatrixSize == 1){
-			gameSpeed = 3f;
+			gameSpeed = 4f;
 		}
 	}
     void chooseRandomEnemyToFire()

@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour {
         }
         if (slives == 0)
         {
-            SceneManager.LoadScene("GameStart"); // Put the main level scene here
+            SceneManager.LoadScene("GameOverScreen"); // Put the main level scene here
         }
     }
 }
