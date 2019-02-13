@@ -1,7 +1,3 @@
-// I think this should be named something differently, and should be used for anything that an individual enemy can do.
-// Maybe this one should have been named enemyScript.cs and the enemy.cs changed to enemyGrid.cs, but I don't think
-// we should risk changing things like that at this point so I'll leave it :]
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,12 +20,12 @@ public class collide : MonoBehaviour
         	GameObject.Find("Main Camera").GetComponent<ScoreUpdate>().score += myScore;
         	--GameObject.Find("EnemySpawns").GetComponent<enemy>().MatrixSize;
             Destroy(this.gameObject);
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
         }
         if (collision.collider.CompareTag("Ground") ||
         	collision.collider.CompareTag("Player"))
         {
-        	SceneManager.LoadScene("GameStart");
+        	SceneManager.LoadScene("GameOverScreen");
         }
     }
 
